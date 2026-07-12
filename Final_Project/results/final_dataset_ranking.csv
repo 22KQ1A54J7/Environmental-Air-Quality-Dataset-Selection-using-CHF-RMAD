@@ -1,0 +1,4 @@
+Dataset,Best_Score,Purpose,Dataset_Rank
+satelite.csv,0.0913620195764527,Large-scale Regional & Climate Analysis,1
+city_AQI_Dataset.csv,0.04023193713802582,City Comparison & Public Reporting,2
+government.csv,0.0179705777174185,Policy Making & Health Impact Analysis,3

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Environmental Air Quality Dataset Ranking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Environmental Air Quality Dataset Selection</h1>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Upload Form -->
+<form method="POST" enctype="multipart/form-data">
+    <label>Upload CSV Dataset Files Only:</label><br><br>
+    <input type="file" name="files" multiple required>
+    <br><br>
+    <button type="submit">Upload & Process</button>
+</form>
+
+<hr>
+
+<!-- Ranking Table -->
+<h2>Final Dataset Ranking</h2>
+
+<table>
+    <tr>
+        <th>Dataset</th>
+        <th>Best Score</th>
+        <th>Rank</th>
+        <th>Recommended Purpose</th>
+    </tr>
+
+    {% if dataset_ranking %}
+        {% for row in dataset_ranking %}
+        <tr>
+            <td>{{ row["Dataset"] }}</td>
+            <td>{{ "%.6f"|format(row["Best_Score"]) }}</td>
+            <td>{{ row["Dataset_Rank"] }}</td>
+            <td>{{ row["Purpose"] }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td colspan="4">No dataset ranking available.</td></tr>
+    {% endif %}
+</table>
+
+<br>
+
+<!-- Download -->
+{% if dataset_ranking %}
+    <a class="download-btn" href="{{ url_for('download_file', filename='final_dataset_ranking.csv') }}">
+        Download Final CSV
+    </a>
+{% endif %}
+
+<!-- Charts -->
+{% if bar_chart %}
+    <h2>Bar Chart</h2>
+    <img src="{{ url_for('static', filename='charts/dataset_bar_chart.png') }}" width="800">
+{% endif %}
+
+{% if pie_chart %}
+    <h2>Pie Chart</h2>
+    <img src="{{ url_for('static', filename='charts/dataset_pie_chart.png') }}" width="600">
+{% endif %}
+
+</div>
+
+</body>
+</html>
